@@ -2,12 +2,13 @@ Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
 Version:	4.0
-Release:	1
+Release:	2
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	d2a9505ab50f79e7f65bbdfe675cdd58
 Source1:	%{name}.desktop
+Patch0:		%{name}-libname.patch
 URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -32,6 +33,7 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
+%patch0 -p1
 
 %build
 mv -f autoconf/{configure.in,xpm.m4} .
@@ -42,6 +44,8 @@ mv -f autoconf/{configure.in,xpm.m4} .
 %{__autoconf}
 %{__automake} || :
 %configure \
+	--enable-shared \
+	--disable-static \
 	--enable-everything \
 	--enable-xgetdefault \
 	--enable-mousewheel \
@@ -69,9 +73,13 @@ echo '.so urxvtc.1' >$RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
 %doc doc/menu/* Changes doc/README.*
 %attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/liburxvt.so*
 %{_desktopdir}/urxvt.desktop
 %{_mandir}/man*/*
