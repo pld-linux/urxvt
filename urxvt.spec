@@ -1,5 +1,5 @@
-Summary:	urxvt - terminal emulator in an X window
-Summary(pl):	Emulator terminala dla X Window
+Summary:	Rxvt terminal with unicode support and some improvements
+Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
 Version:	3.1
 Release:	1
@@ -8,42 +8,32 @@ License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	72695ff1beb8d95e6b72c645b1079461
 Source1:	%{name}.desktop
-Patch0:		rxvt-utmp98.patch
-Patch1:		rxvt-utmp98-2.patch
-Patch2:		rxvt-xim.patch
-Patch3:		rxvt-utmpx.patch
+Patch0:		%{name}-nodoc.patch
 URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRequires:	utempter-devel
 BuildRequires:	xft-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Rxvt is a VT100 terminal emulator for X. It is intended as a
-replacement for xterm(1) for users who do not require the more
-esoteric features of xterm. Specifically urxvt does not implement the
-Tektronix 4014 emulation, session logging and toolkit style
-configurability. As a result, urxvt uses much less swap space than
-xterm - a significant advantage on a machine serving many X sessions.
+URxvt is a Rxvt modification which includes:
+- unicode support
+- xft font support (antialiasing)
+- background pixmaps
+- background tinting
 
 %description -l pl
-Rxvt jest emulatorem terminala VT100 dla X Window. Jest on
-interesuj±cym zamiennikiem dla programu xterm(1) dla u¿ytkowników,
-którzy nie potrzebuj± bardziej wyszukanych mo¿liwo¶ci xterma jak
-emulacja terminala Tektronix 4014, logowanie sesji czy pewne
-mo¿liwo¶ci konfiguracyjnye na poziomie X toolkit. Rezygnacja z tych
-mo¿liwo¶ci zaowocowa³a tym, ¿e urxvt potrzebuje o wiele mniej pamiêci
-do uruchomienia.
+URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
+- obs³ugê unicode
+- obs³ugê czcionek xft (antialiasing)
+- mo¿liwo¶æ ustawienia grafiki jako t³a
+- cieniowanie t³a
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-#%patch0 -p1
-#%patch1 -p1
-#%patch2 -p1
-#%patch3 -p1
+%patch0 -p1
 
 %build
 mv -f autoconf/{configure.in,xpm.m4} .
@@ -54,35 +44,38 @@ CFLAGS="%{rpmcflags} -DLINUX_KEYS"
 %{__autoconf}
 %{__automake} || :
 %configure \
-	--enable-shared \
-	--disable-static \
 	--enable-everything \
 	--enable-xgetdefault \
 	--enable-mousewheel \
 	--disable-menubar \
 	--enable-next-scroll \
 	--enable-ttygid \
-	--with-term=urxvt \
+	--with-term=rxvt \
 	--enable-half-shadow \
 	--enable-smart-resize \
-	--enable-256-color
+	--enable-256-color \
+	--enable-24bit
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_mandir}/man1
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
+install doc/rxvt.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvt.1
+install doc/rxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtc.1
+ln -s urxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/menu/* ChangeLog
+%doc doc/menu/* Changes README.unicode doc/README.* doc/FAQ
 %attr(755,root,root) %{_bindir}/*
 %{_desktopdir}/urxvt.desktop
 %{_mandir}/man1/*
