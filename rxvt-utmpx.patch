@@ -1,0 +1,11 @@
+--- rxvt-2.7.6/configure.in~	Sat Nov 24 20:29:58 2001
++++ rxvt-2.7.6/configure.in	Sat Nov 24 20:39:59 2001
+@@ -663,7 +663,7 @@
+ #ifdef UTMPX_FILE
+ 	UTMPX_FILE,
+ #endif
+-    "/var/adm/utmpx", "/etc/utmpx", NULL };
++    "/var/run/utmpx", "/var/adm/utmpx", "/etc/utmpx", NULL };
+     FILE *a, *f=fopen("conftestval", "w");
+     struct stat statu, statux;
+     if (!f) exit(1);
