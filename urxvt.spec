@@ -4,18 +4,21 @@ Name:		urxvt
 Version:	3.1
 Release:	1
 Group:		X11/Applications
+License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
+# Source0-md5:	72695ff1beb8d95e6b72c645b1079461
 Source1:	%{name}.desktop
-Patch0:		%{name}-utmp98.patch
-Patch1:		%{name}-utmp98-2.patch
-Patch2:		%{name}-xim.patch
-Patch3:		%{name}-utmpx.patch
+Patch0:		rxvt-utmp98.patch
+Patch1:		rxvt-utmp98-2.patch
+Patch2:		rxvt-xim.patch
+Patch3:		rxvt-utmpx.patch
 URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	utempter-devel
+BuildRequires:	xft-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -36,11 +39,11 @@ mo¿liwo¶ci zaowocowa³a tym, ¿e urxvt potrzebuje o wiele mniej pamiêci
 do uruchomienia.
 
 %prep
-%setup -q
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
+%setup -q -n rxvt-unicode-%{version}
+#%patch0 -p1
+#%patch1 -p1
+#%patch2 -p1
+#%patch3 -p1
 
 %build
 mv -f autoconf/{configure.in,xpm.m4} .
@@ -57,7 +60,7 @@ CFLAGS="%{rpmcflags} -DLINUX_KEYS"
 	--enable-xgetdefault \
 	--enable-mousewheel \
 	--disable-menubar \
-	--enable-next-xcroll \
+	--enable-next-scroll \
 	--enable-ttygid \
 	--with-term=urxvt \
 	--enable-half-shadow \
