@@ -1,14 +1,13 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	3.8
+Version:	4.0
 Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	b1c393504c4aa0442137ead4bc06bec5
+# Source0-md5:	d2a9505ab50f79e7f65bbdfe675cdd58
 Source1:	%{name}.desktop
-Patch0:		%{name}-nodoc.patch
 URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
@@ -33,7 +32,6 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-%patch0 -p1
 
 %build
 mv -f autoconf/{configure.in,xpm.m4} .
@@ -66,9 +64,6 @@ install -d $RPM_BUILD_ROOT%{_mandir}/man{1,7}
 
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install doc/rxvt.1.man $RPM_BUILD_ROOT%{_mandir}/man1/urxvt.1
-install doc/rxvt.7.man $RPM_BUILD_ROOT%{_mandir}/man7/urxvt.7
-install doc/rxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtc.1
 echo '.so urxvtc.1' >$RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
 
 %clean
