@@ -68,7 +68,7 @@ install -d $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
 install doc/rxvt.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvt.1
 install doc/rxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtc.1
-ln -s urxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
+echo '.so urxvtc.1' >$RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
