@@ -1,12 +1,12 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	4.3
-Release:	2
+Version:	4.6
+Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	c4d06c72cf97517fd5cb041bb45b391d
+# Source0-md5:	f8b5058808125de3412d13668ee2316c
 Source1:	%{name}.desktop
 Patch0:		%{name}-libname.patch
 URL:		http://software.schmorp.de
