@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=URxvt
+Comment=Small, fast X11 terminal application with unicode support
+Comment[pl]=Mała, ale szybka aplikacja terminala pod X11 z obsługą unicode
+Exec=urxvt
+Icon=gnome-term.png
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=TerminalEmulator;
+# vi: encoding=utf-8
