@@ -1,6 +1,6 @@
---- rxvt-2.7.6/src/logging.c	Tue Apr  3 02:05:26 2001
-+++ rxvt-2.7.6.modified/src/logging.c	Thu May 10 17:14:43 2001
-@@ -170,157 +170,9 @@
+--- rxvt-2.7.8/src/logging.c.orig	Wed May 15 08:29:09 2002
++++ rxvt-2.7.8/src/logging.c	Wed May 15 08:30:16 2002
+@@ -171,154 +171,9 @@
  /* EXTPROTO */
  void
  rxvt_makeutent(rxvt_t *r, const char *pty, const char *hostname)
@@ -40,7 +40,7 @@
 -    buf[sizeof(buf) - 1] = '\0';
 -#ifdef __QNX__
 -    for (;;) {
--	utmp_pos = fseek(fd0, 0L, 1);
+-	r->h->utmp_pos = fseek(fd0, 0L, 1);
 -	if (fread(&u2, sizeof(UTMP), 1, fd0) != 1)
 -	    break;
 -	if ((u2.ut_type == LOGIN_PROCESS || u2.ut_type == USER_PROCESS)
@@ -112,14 +112,11 @@
 -
 -/* set up the new entry */
 -    ut->ut_type = USER_PROCESS;
--#ifndef linux
+-#if 0		/* #ifndef linux */
 -    ut->ut_exit.e_exit = 2;
 -#endif
 -    STRNCPY(ut->ut_user, (pwent && pwent->pw_name) ? pwent->pw_name : "?",
 -	    sizeof(ut->ut_user));
--/* ut_name is normally the same as ut_user, but .... */
--    STRNCPY(ut->ut_name, (pwent && pwent->pw_name) ? pwent->pw_name : "?",
--	    sizeof(ut->ut_name));
 -    STRNCPY(ut->ut_id, r->h->ut_id, sizeof(ut->ut_id));
 -    STRNCPY(ut->ut_line, pty, sizeof(ut->ut_line));
 -
@@ -159,7 +156,7 @@
  
  /* ------------------------------------------------------------------------- */
  /*
-@@ -329,77 +181,9 @@
+@@ -327,77 +182,9 @@
  /* EXTPROTO */
  void
  rxvt_cleanutent(rxvt_t *r)
