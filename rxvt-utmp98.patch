@@ -1,0 +1,251 @@
+--- rxvt-2.7.6/src/logging.c	Tue Apr  3 02:05:26 2001
++++ rxvt-2.7.6.modified/src/logging.c	Thu May 10 17:14:43 2001
+@@ -170,157 +170,9 @@
+ /* EXTPROTO */
+ void
+ rxvt_makeutent(rxvt_t *r, const char *pty, const char *hostname)
+-#ifndef USE_SYSV_UTMP
+-/* ------------------------------ BSD ------------------------------  */
+ {
+-    FILE           *fd0;
+-    UTMP           *ut = &(r->h->ut);
+-    struct passwd  *pwent = getpwuid(getuid());
+-#ifdef __QNX__
+-    UTMP            u2;
+-    struct utsname  un;
+-#endif
+-    char            buf[256], name[256];
+-
+-/* BSD naming is of the form /dev/tty?? or /dev/pty?? */
+-    MEMSET(ut, 0, sizeof(UTMP));
+-
+-    if (!STRNCMP(pty, "/dev/", 5))
+-	pty += 5;		/* skip /dev/ prefix */
+-    if (STRNCMP(pty, "pty", 3) && STRNCMP(pty, "tty", 3)) {
+-	rxvt_print_error("can't parse tty name \"%s\"", pty);
+-	return;
+-    }
+-#ifdef __QNX__
+-    uname(&un);
+-    STRNCPY(ut->id, un.nodename, sizeof(ut->ut_line));
+-    ut->ut_pid = getpid();
+-    ut->ut_type = USER_PROCESS;
+-#endif
+-    STRNCPY(ut->ut_line, pty, sizeof(ut->ut_line));
+-    STRNCPY(ut->ut_name, (pwent && pwent->pw_name) ? pwent->pw_name : "?",
+-	    sizeof(ut->ut_name));
+-    STRNCPY(ut->ut_host, hostname, sizeof(ut->ut_host));
+-    ut->ut_time = time(NULL);
+-
+-    buf[sizeof(buf) - 1] = '\0';
+-#ifdef __QNX__
+-    for (;;) {
+-	utmp_pos = fseek(fd0, 0L, 1);
+-	if (fread(&u2, sizeof(UTMP), 1, fd0) != 1)
+-	    break;
+-	if ((u2.ut_type == LOGIN_PROCESS || u2.ut_type == USER_PROCESS)
+-	    && (STRNCMP(u2.ut_line, pty, sizeof(u2.ut_line)) == 0))
+-	    break;
+-    }
+-#else
+-    if ((fd0 = fopen(TTYTAB_FILENAME, "r")) != NULL) {
+-	int             i;
+-
+-	for (i = 1; (fgets(buf, sizeof(buf) - 1, fd0) != NULL);) {
+-	    if (*buf == '#' || sscanf(buf, "%s", name) != 1)
+-		continue;
+-	    if (!STRCMP(ut->ut_line, name)) {
+-		r->h->utmp_pos = i;
+-		fclose(fd0);
+-		break;
+-	    }
+-	    i++;
+-	}
+-	fclose(fd0);
+-    }
+-#endif
+-    if (!rxvt_write_bsd_utmp(r->h->utmp_pos, ut))
+-	r->h->utmp_pos = 0;
+-#ifdef WTMP_SUPPORT
+-# ifdef WTMP_ONLY_ON_LOGIN
+-    if (r->Options & Opt_loginShell)
+-# endif
+-	update_wtmp(RXVT_REAL_WTMP_FILE, ut);
+-#endif
+-#if defined(LASTLOG_SUPPORT) && defined(RXVT_LASTLOG_FILE)
+-    if (r->Options & Opt_loginShell)
+-	rxvt_update_lastlog(RXVT_LASTLOG_FILE, pty, hostname);
+-#endif
++    addToUtmp(pty, NULL, r->cmd_fd);
+ }
+-#else
+-/* ------------------------------ SYSV ------------------------------  */
+-{
+-    int             i;
+-    char           *colon;
+-    UTMP           *ut = &(r->h->ut);
+-    struct passwd  *pwent = getpwuid(getuid());
+-
+-    MEMSET(ut, 0, sizeof(UTMP));
+-
+-    if (!STRNCMP(pty, "/dev/", 5))
+-	pty += 5;		/* skip /dev/ prefix */
+-    if (!STRNCMP(pty, "pty", 3) || !STRNCMP(pty, "tty", 3))
+-	STRNCPY(ut->ut_id, (pty + 3), sizeof(ut->ut_id));
+-    else if (sscanf(pty, "pts/%d", &i) == 1)
+-	sprintf(ut->ut_id, "vt%02x", (i & 0xff));	/* sysv naming */
+-    else {
+-	rxvt_print_error("can't parse tty name \"%s\"", pty);
+-	return;
+-    }
+-
+-#if 0
+-    /* XXX: most likely unnecessary.  could be harmful */
+-    utmpname(RXVT_REAL_UTMP_FILE);
+-#endif
+-    STRNCPY(r->h->ut_id, ut->ut_id, sizeof(r->h->ut_id));
+-
+-    setutent();			/* XXX: should be unnecessaray */
+-
+-    ut->ut_type = DEAD_PROCESS;
+-    getutid(ut);		/* position to entry in utmp file */
+-
+-/* set up the new entry */
+-    ut->ut_type = USER_PROCESS;
+-#ifndef linux
+-    ut->ut_exit.e_exit = 2;
+-#endif
+-    STRNCPY(ut->ut_user, (pwent && pwent->pw_name) ? pwent->pw_name : "?",
+-	    sizeof(ut->ut_user));
+-/* ut_name is normally the same as ut_user, but .... */
+-    STRNCPY(ut->ut_name, (pwent && pwent->pw_name) ? pwent->pw_name : "?",
+-	    sizeof(ut->ut_name));
+-    STRNCPY(ut->ut_id, r->h->ut_id, sizeof(ut->ut_id));
+-    STRNCPY(ut->ut_line, pty, sizeof(ut->ut_line));
+-
+-#if (defined(HAVE_UTMP_HOST) && ! defined(RXVT_UTMP_AS_UTMPX)) || (defined(HAVE_UTMPX_HOST) && defined(RXVT_UTMP_AS_UTMPX))
+-    STRNCPY(ut->ut_host, hostname, sizeof(ut->ut_host));
+-# ifndef linux
+-    if ((colon = STRRCHR(ut->ut_host, ':')) != NULL)
+-	*colon = '\0';
+-# endif
+-#endif
+-
+-    ut->ut_pid = getpid();
+-
+-#ifdef RXVT_UTMP_AS_UTMPX
+-    ut->ut_session = getsid(0);
+-    ut->ut_tv.tv_sec = time(NULL);
+-    ut->ut_tv.tv_usec = 0;
+-#else
+-    ut->ut_time = time(NULL);
+-#endif				/* HAVE_UTMPX_H */
+-    pututline(ut);
+-    r->h->utmp_pos = 1;
+-
+-#ifdef WTMP_SUPPORT
+-# ifdef WTMP_ONLY_ON_LOGIN
+-    if (r->Options & Opt_loginShell)
+-# endif
+-	update_wtmp(RXVT_REAL_WTMP_FILE, ut);
+-#endif
+-#if defined(LASTLOG_SUPPORT) && defined(RXVT_LASTLOG_FILE)
+-    if (r->Options & Opt_loginShell)
+-	rxvt_update_lastlog(RXVT_LASTLOG_FILE, pty, hostname);
+-#endif
+-    endutent();			/* close the file */
+-}
+-#endif				/* !USE_SYSV_UTMP */
+ 
+ /* ------------------------------------------------------------------------- */
+ /*
+@@ -329,77 +181,9 @@
+ /* EXTPROTO */
+ void
+ rxvt_cleanutent(rxvt_t *r)
+-#ifndef USE_SYSV_UTMP
+-/* ------------------------------ BSD ------------------------------  */
+ {
+-    UTMP           *ut = &(r->h->ut);
+-#ifdef __QNX__
+-    UTMP            u2;
+-
+-    MEMCPY(u2, ut, sizeof(UTMP));
+-#endif
+-#ifdef WTMP_SUPPORT
+-# ifdef WTMP_ONLY_ON_LOGIN
+-    if (r->Options & Opt_loginShell)
+-# endif
+-    {
+-	MEMSET(ut->ut_name, 0, sizeof(ut->ut_name));
+-	MEMSET(ut->ut_host, 0, sizeof(ut->ut_host));
+-	ut->ut_time = time(NULL);
+-	update_wtmp(RXVT_REAL_WTMP_FILE, ut);
+-    }
+-#endif
+-    if (!r->h->utmp_pos)
+-	return;
+-#ifdef __QNX__
+-    u2.ut_type = DEAD_PROCESS;
+-    rxvt_write_bsd_utmp(r->h->utmp_pos, &u2);
+-#else
+-    MEMSET(ut, 0, sizeof(UTMP));
+-    rxvt_write_bsd_utmp(r->h->utmp_pos, ut);
+-#endif
++    removeFromUtmp();
+ }
+-#else				/* USE_SYSV_UTMP */
+-/* ------------------------------ SYSV ------------------------------  */
+-{
+-    UTMP           *putmp, *ut = &(r->h->ut);
+-
+-    if (!r->h->utmp_pos)
+-	return;
+ 
+-#if 0
+-    /* XXX: most likely unnecessary.  could be harmful */
+-    utmpname(RXVT_REAL_UTMP_FILE);
+-#endif
+-    MEMSET(ut, 0, sizeof(UTMP));
+-    STRNCPY(ut->ut_id, r->h->ut_id, sizeof(ut->ut_id));
+-    ut->ut_type = USER_PROCESS;
+ 
+-    setutent();			/* XXX: should be unnecessaray */
+-
+-    putmp = getutid(ut);
+-    if (!putmp || putmp->ut_pid != getpid())
+-	return;
+-
+-    putmp->ut_type = DEAD_PROCESS;
+-
+-#ifdef RXVT_UTMP_AS_UTMPX
+-    putmp->ut_session = getsid(0);
+-    putmp->ut_tv.tv_sec = time(NULL);
+-    putmp->ut_tv.tv_usec = 0;
+-#else				/* HAVE_UTMPX_H */
+-    putmp->ut_time = time(NULL);
+-#endif				/* HAVE_UTMPX_H */
+-    pututline(putmp);
+-
+-#ifdef WTMP_SUPPORT
+-# ifdef WTMP_ONLY_ON_LOGIN
+-    if (r->Options & Opt_loginShell)
+-# endif
+-	update_wtmp(RXVT_REAL_WTMP_FILE, putmp);
+-#endif
+-
+-    endutent();
+-}
+-#endif				/* !USE_SYSV_UTMP */
+ #endif				/* UTMP_SUPPORT */
+--- rxvt-2.7.6/src/Makefile.in	Mon Apr  2 16:33:43 2001
++++ rxvt-2.7.6.modified/src/Makefile.in	Thu May 10 16:58:32 2001
+@@ -82,7 +82,7 @@
+ all: allbin
+ 
+ rxvt: version.h rxvt.o librxvt.la
+-	$(LIBTOOL) --mode=link $(LINK) rxvt.o librxvt.la $(LIBS) $(XLIB) $(DLIB) -o $@
++	$(LIBTOOL) --mode=link $(LINK) rxvt.o librxvt.la $(LIBS) $(XLIB) -lutempter -lutil $(DLIB) -o $@
+ 
+ protos:
+ 	@for I in $(EXTPROS); do \

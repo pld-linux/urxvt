@@ -1,0 +1,18 @@
+--- rxvt-2.7.6/src/init.c.utmp	Tue May 29 12:35:47 2001
++++ rxvt-2.7.6/src/init.c	Tue May 29 12:36:20 2001
+@@ -615,6 +615,7 @@
+ 	rxvt_print_error("aborting");
+ 	exit(EXIT_FAILURE);
+     }
++    rxvt_privileged_utmp(r, SAVE);
+ }
+ 
+ /*----------------------------------------------------------------------*/
+@@ -1120,7 +1121,6 @@
+ #endif
+     r->num_fds++;		/* counts from 0 */
+ 
+-    rxvt_privileged_utmp(r, SAVE);
+     return cfd;
+ }
+ 
