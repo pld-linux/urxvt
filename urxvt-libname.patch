@@ -1,0 +1,56 @@
+diff -ur rxvt-unicode-4.0.orig/src/Makefile.in rxvt-unicode-4.0/src/Makefile.in
+--- rxvt-unicode-4.0.orig/src/Makefile.in	2004-09-02 06:14:58.000000000 +0200
++++ rxvt-unicode-4.0/src/Makefile.in	2004-10-28 16:35:04.949081480 +0200
+@@ -90,16 +90,16 @@
+ 
+ all: allbin
+ 
+-rxvt: version.h rxvt.o librxvt.la
+-	$(LIBTOOL) --mode=link $(LINK) rxvt.o librxvt.la $(LIBS) $(XLIB) $(DLIB) -o $@
++rxvt: version.h rxvt.o liburxvt.la
++	$(LIBTOOL) --mode=link $(LINK) rxvt.o liburxvt.la $(LIBS) $(XLIB) $(DLIB) -o $@
+ 
+-rxvtd: version.h rxvtd.o librxvt.la rxvtdaemon.o
+-	$(LIBTOOL) --mode=link $(LINK) rxvtd.o rxvtdaemon.o librxvt.la $(LIBS) $(XLIB) $(DLIB) -o $@
++rxvtd: version.h rxvtd.o liburxvt.la rxvtdaemon.o
++	$(LIBTOOL) --mode=link $(LINK) rxvtd.o rxvtdaemon.o liburxvt.la $(LIBS) $(XLIB) $(DLIB) -o $@
+ 
+ rxvtc: version.h rxvtc.o rxvtdaemon.o
+ 	$(LIBTOOL) --mode=link $(LINK) rxvtc.o rxvtdaemon.o $(LIBS) $(DLIB) -o $@
+ 
+-librxvt.la: $(LIBOBJS)
++liburxvt.la: $(LIBOBJS)
+ 	$(LIBTOOL) --mode=link $(LINK) -rpath $(libdir) -version-info $(LIBVERSION) $(LIBOBJS) $(LIBS) -o $@
+ 
+ #-------------------------------------------------------------------------
+@@ -112,7 +112,7 @@
+ alldoc:
+ 
+ clean:
+-	$(RMF) rxvt rxvtc rxvtd core a.out *.o *.lo *.bak *~ *.intpro .libs/* librxvt.la tmpproto *.tmp
++	$(RMF) rxvt rxvtc rxvtd core a.out *.o *.lo *.bak *~ *.intpro .libs/* liburxvt.la tmpproto *.tmp
+ 
+ realclean: clean
+ 	$(RMF) tags librxvt.h
+@@ -128,8 +128,8 @@
+ 	@if test x$(INSTALL_LIBRXVT) = xyes; then \
+ 	    $(ECHO) "$(LIBTOOL) --mode=install $(INSTALL_DATA) rxvtlib.h $(DESTDIR)$(includedir)/rxvtlib.h"; \
+ 	    $(LIBTOOL) --mode=install $(INSTALL_DATA) rxvtlib.h $(DESTDIR)$(includedir)/rxvtlib.h; \
+-	    $(ECHO) "$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) librxvt.la $(DESTDIR)$(libdir)/librxvt.la"; \
+-	    $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) librxvt.la $(DESTDIR)$(libdir)/librxvt.la; \
++	    $(ECHO) "$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) liburxvt.la $(DESTDIR)$(libdir)/liburxvt.la"; \
++	    $(LIBTOOL) --mode=install $(INSTALL_PROGRAM) liburxvt.la $(DESTDIR)$(libdir)/liburxvt.la; \
+ 	fi
+ 	$(RMF) $(RXVT_BINNAME)
+ 	$(RMF) $(RXVTC_BINNAME)
+@@ -144,8 +144,8 @@
+ 	@$(ECHO) "$(LIBTOOL) --mode=uninstall $(RMF) $(RXVT_BINNAME)"
+ 	@$(LIBTOOL) --mode=uninstall $(RMF) $(RXVT_BINNAME)
+ 	@if test x$(INSTALL_LIBRXVT) = xyes; then \
+-	    $(ECHO) "$(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(libdir)/librxvt.la"; \
+-	    $(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(libdir)/librxvt.la; \
++	    $(ECHO) "$(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(libdir)/liburxvt.la"; \
++	    $(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(libdir)/liburxvt.la; \
+ 	    $(ECHO) "$(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(includedir)/rxvtlib.h"; \
+ 	    $(LIBTOOL) --mode=uninstall $(RMF) $(DESTDIR)$(includedir)/rxvtlib.h; \
+ 	fi
