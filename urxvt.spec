@@ -1,12 +1,12 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	3.5
-Release:	2
+Version:	3.6
+Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	d1b03748868e99f2524a03ea4be718d8
+# Source0-md5:	88091853f3a166b29521961fddcd2ddb
 Source1:	%{name}.desktop
 Patch0:		%{name}-nodoc.patch
 URL:		http://software.schmorp.de
@@ -59,14 +59,15 @@ mv -f autoconf/{configure.in,xpm.m4} .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man1
+install -d $RPM_BUILD_ROOT%{_mandir}/man{1,7}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_desktopdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_desktopdir}
-install doc/rxvt.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvt.1
+install doc/rxvt.1.man $RPM_BUILD_ROOT%{_mandir}/man1/urxvt.1
+install doc/rxvt.7.man $RPM_BUILD_ROOT%{_mandir}/man7/urxvt.7
 install doc/rxvtc.1 $RPM_BUILD_ROOT%{_mandir}/man1/urxvtc.1
 echo '.so urxvtc.1' >$RPM_BUILD_ROOT%{_mandir}/man1/urxvtd.1
 
@@ -75,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/menu/* Changes README.unicode doc/README.* doc/FAQ
+%doc doc/menu/* Changes README.unicode doc/README.*
 %attr(755,root,root) %{_bindir}/*
 %{_desktopdir}/urxvt.desktop
-%{_mandir}/man1/*
+%{_mandir}/man*/*
