@@ -1,19 +1,19 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	5.3
+Version:	5.6
 Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	1a5372a40d728c8a50e059b5d826490e
+# Source0-md5:	d194dc03511b64544d2912b88fadd2b5
 Source1:	%{name}.desktop
-Patch0:		%{name}-libname.patch
 URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
+BuildRequires:	sed >= 4.0
 BuildRequires:	xft-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -34,11 +34,9 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-#%patch0 -p1 
-
+sed -i -e 's|-O3||' autoconf/configure.in
 %build
 mv -f autoconf/{configure.in,xpm.m4} .
-#CFLAGS="%{rpmcflags} -DLINUX_KEYS"
 %{__libtoolize}
 %{__aclocal} -I .
 %{__autoheader}
@@ -58,7 +56,8 @@ mv -f autoconf/{configure.in,xpm.m4} .
 	--enable-smart-resize \
 	--enable-256-color \
 	--enable-24bit
-%{__make}
+%{__make} \
+	CPPFLAGS="$CPPFLAGS %{rpmcflags}"
 
 %install
 rm -rf $RPM_BUILD_ROOT
