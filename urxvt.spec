@@ -12,6 +12,7 @@ URL:		http://software.schmorp.de
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
 BuildRequires:	xft-devel
