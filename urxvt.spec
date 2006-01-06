@@ -1,12 +1,19 @@
+#
+# TODO: unpackaded perl stuff:
+#	/usr/lib/urxvt/perl/digital-clock
+#	/usr/lib/urxvt/perl/example-refresh-hooks
+#	/usr/lib/urxvt/perl/selection
+#	/usr/lib/urxvt/urxvt.pm
+#
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	5.9
-Release:	2
+Version:	6.3
+Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	c160e8199d71324d789657c6d1092a4e
+# Source0-md5:	411799866fa89ab31f2b19662c36e7ce
 Source1:	%{name}.desktop
 Patch0:		%{name}-link.patch
 URL:		http://software.schmorp.de/
@@ -61,6 +68,7 @@ ln -sf autoconf/configure.in .
 	--enable-256-color \
 	--enable-24bit
 %{__make} \
+	CXXFLAGS="%{rpmcxxflags}" \
 	CFLAGS="%{rpmcxxflags}"
 
 %install
