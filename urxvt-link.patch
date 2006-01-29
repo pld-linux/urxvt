@@ -1,8 +1,8 @@
-diff -aurN rxvt-unicode-6.3.orig/autoconf/configure.in rxvt-unicode-6.3/autoconf/configure.in
---- rxvt-unicode-6.3.orig/autoconf/configure.in	2006-01-04 06:16:42.000000000 +0100
-+++ rxvt-unicode-6.3/autoconf/configure.in	2006-01-06 23:19:40.000000000 +0100
-@@ -77,11 +77,11 @@
- AC_ISC_POSIX
+diff -aurN rxvt-unicode-7.4.orig/configure.ac rxvt-unicode-7.4/configure.ac
+--- rxvt-unicode-7.4.orig/configure.ac	2006-01-25 23:09:18.000000000 +0100
++++ rxvt-unicode-7.4/configure.ac	2006-01-29 12:17:19.624369000 +0100
+@@ -88,14 +88,14 @@
+ dnl fi
  
  dnl# FreeBSD needs to link libxpg4
 -AC_CHECK_FUNC(setlocale,     [], [AC_CHECK_LIB(xpg4,   setlocale,     [LIBS="$LIBS -lxpg4"])])
@@ -15,4 +15,8 @@ diff -aurN rxvt-unicode-6.3.orig/autoconf/configure.in rxvt-unicode-6.3/autoconf
 +AC_SEARCH_LIBS(socket, socket)
  
  dnl# more solaris
- AC_CHECK_FUNC(sched_yield,   [], [AC_CHECK_LIB(rt,     sched_yield,   [LIBS="$LIBS -lrt"])])
+-AC_CHECK_FUNC(sched_yield,   [], [AC_CHECK_LIB(rt,     sched_yield,   [LIBS="$LIBS -lrt"])])
++AC_SEARCH_LIBS(sched_yield, rt)
+ 
+ dnl# sched_yield to improve terminal efficiency
+ AC_MSG_CHECKING(for sched_yield support)
