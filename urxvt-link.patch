@@ -1,7 +1,7 @@
-diff -aurN rxvt-unicode-7.4.orig/configure.ac rxvt-unicode-7.4/configure.ac
---- rxvt-unicode-7.4.orig/configure.ac	2006-01-25 23:09:18.000000000 +0100
-+++ rxvt-unicode-7.4/configure.ac	2006-01-29 12:17:19.624369000 +0100
-@@ -88,14 +88,14 @@
+diff -aurN rxvt-unicode-7.5.orig/configure.ac rxvt-unicode-7.5/configure.ac
+--- rxvt-unicode-7.5.orig/configure.ac	2006-01-28 22:26:37.000000000 +0100
++++ rxvt-unicode-7.5/configure.ac	2006-02-04 20:46:00.617940000 +0100
+@@ -88,11 +88,11 @@
  dnl fi
  
  dnl# FreeBSD needs to link libxpg4
@@ -14,9 +14,5 @@ diff -aurN rxvt-unicode-7.4.orig/configure.ac rxvt-unicode-7.4/configure.ac
 +AC_SEARCH_LIBS(nsl, gethostbyname)
 +AC_SEARCH_LIBS(socket, socket)
  
- dnl# more solaris
--AC_CHECK_FUNC(sched_yield,   [], [AC_CHECK_LIB(rt,     sched_yield,   [LIBS="$LIBS -lrt"])])
-+AC_SEARCH_LIBS(sched_yield, rt)
- 
- dnl# sched_yield to improve terminal efficiency
- AC_MSG_CHECKING(for sched_yield support)
+ dnl AC_ENABLE_SHARED(no)dnl#	libtool
+ dnl AC_ENABLE_STATIC(yes)dnl#	libtool
