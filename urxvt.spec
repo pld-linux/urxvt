@@ -1,19 +1,13 @@
-#
-# TODO: unpackaded perl stuff:
-#	/usr/lib/urxvt/perl/digital-clock
-#	/usr/lib/urxvt/perl/example-refresh-hooks
-#	/usr/lib/urxvt/perl/selection
-#	/usr/lib/urxvt/urxvt.pm
-#
+%include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	7.0
-Release:	1
+Version:	7.5
+Release:	0.1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	4c7905b57199d1fe217a91e750721af9
+# Source0-md5:	41b8b19da031846c6a60bf8f36a16fd7
 Source1:	%{name}.desktop
 Patch0:		%{name}-link.patch
 URL:		http://software.schmorp.de/
@@ -45,12 +39,7 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 %setup -q -n rxvt-unicode-%{version}
 %patch0 -p1
 
-rm -f autoconf/libtool.m4
-ln -sf autoconf/configure.in .
-
 %build
-%{__libtoolize}
-%{__aclocal} -I autoconf
 %{__autoheader}
 %{__autoconf}
 %configure \
@@ -75,6 +64,7 @@ ln -sf autoconf/configure.in .
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_mandir}/man{1,7}
 
+echo $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -90,7 +80,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/menu/* Changes doc/README.*
+%doc Changes doc/README.*
 %attr(755,root,root) %{_bindir}/*
+%{_libdir}/%{name}
 %{_desktopdir}/urxvt.desktop
 %{_mandir}/man*/*
