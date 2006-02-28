@@ -2,22 +2,25 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	7.5
-Release:	0.1
+Version:	7.7
+Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	41b8b19da031846c6a60bf8f36a16fd7
+# Source0-md5:	68298390375da1b34f89a0aa634c9b20
 Source1:	%{name}.desktop
 Patch0:		%{name}-link.patch
 URL:		http://software.schmorp.de/
-BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
-BuildRequires:	xft-devel
+BuildRequires:	xorg-lib-libXext
+BuildRequires:	xorg-lib-libXft
+BuildRequires:	xorg-lib-libXpm
+BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -27,6 +30,7 @@ URxvt is a Rxvt modification which includes:
 - xft font support (antialiasing)
 - background pixmaps
 - background tinting
+- real transparency
 
 %description -l pl
 URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
@@ -34,6 +38,7 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 - obs³ugê czcionek xft (antialiasing)
 - mo¿liwo¶æ ustawienia grafiki jako t³a
 - cieniowanie t³a
+- prawdziw± przezroczysto¶æ
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
