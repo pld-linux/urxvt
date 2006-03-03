@@ -17,9 +17,9 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
-BuildRequires:	xorg-lib-libXext
-BuildRequires:	xorg-lib-libXft
-BuildRequires:	xorg-lib-libXpm
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXft-devel
+BuildRequires:	xorg-lib-libXpm-devel
 BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
