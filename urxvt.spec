@@ -1,22 +1,24 @@
+%include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	5.9
-Release:	2
+Version:	7.9
+Release:	1
 Group:		X11/Applications
 License:	GPL
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	c160e8199d71324d789657c6d1092a4e
+# Source0-md5:	7a0c73ccf0e31808ad37b61e730cd10e
 Source1:	%{name}.desktop
 Patch0:		%{name}-link.patch
 URL:		http://software.schmorp.de/
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
-BuildRequires:	xft-devel
+BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -26,6 +28,7 @@ URxvt is a Rxvt modification which includes:
 - xft font support (antialiasing)
 - background pixmaps
 - background tinting
+- real transparency
 
 %description -l pl
 URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
@@ -33,17 +36,13 @@ URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
 - obs³ugê czcionek xft (antialiasing)
 - mo¿liwo¶æ ustawienia grafiki jako t³a
 - cieniowanie t³a
+- prawdziw± przezroczysto¶æ
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
 %patch0 -p1
 
-rm -f autoconf/libtool.m4
-ln -sf autoconf/configure.in .
-
 %build
-%{__libtoolize}
-%{__aclocal} -I autoconf
 %{__autoheader}
 %{__autoconf}
 %configure \
@@ -61,6 +60,7 @@ ln -sf autoconf/configure.in .
 	--enable-256-color \
 	--enable-24bit
 %{__make} \
+	CXXFLAGS="%{rpmcxxflags}" \
 	CFLAGS="%{rpmcxxflags}"
 
 %install
@@ -82,7 +82,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc doc/menu/* Changes doc/README.*
+%doc Changes doc/README.*
 %attr(755,root,root) %{_bindir}/*
+%{_libdir}/%{name}
 %{_desktopdir}/urxvt.desktop
 %{_mandir}/man*/*
