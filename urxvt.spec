@@ -18,6 +18,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
 BuildRequires:	sed >= 4.0
+BuildRequires:	xft-devel
 BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
