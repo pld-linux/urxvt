@@ -17,6 +17,7 @@ BuildRequires:	automake
 BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	libtool
+BuildRequires:	perl-devel
 BuildRequires:	sed >= 4.0
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel
