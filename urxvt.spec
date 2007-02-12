@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
-Summary(pl.UTF-8):   Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
+Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
 Version:	7.9
 Release:	3
