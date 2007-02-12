@@ -1,6 +1,6 @@
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
-Summary(pl):	Terminal Rxvt z obs³ug± unicode i kilkoma usprawnieniami
+Summary(pl.UTF-8):   Terminal Rxvt z obsÅ‚ugÄ… unicode i kilkoma usprawnieniami
 Name:		urxvt
 Version:	7.9
 Release:	3
@@ -34,13 +34,13 @@ URxvt is a Rxvt modification which includes:
 - background tinting
 - real transparency
 
-%description -l pl
-URxvt jest modyfikacj± Rxvt uwzglêdniaj±c±:
-- obs³ugê unicode
-- obs³ugê czcionek xft (antialiasing)
-- mo¿liwo¶æ ustawienia grafiki jako t³a
-- cieniowanie t³a
-- prawdziw± przezroczysto¶æ
+%description -l pl.UTF-8
+URxvt jest modyfikacjÄ… Rxvt uwzglÄ™dniajÄ…cÄ…:
+- obsÅ‚ugÄ™ unicode
+- obsÅ‚ugÄ™ czcionek xft (antialiasing)
+- moÅ¼liwoÅ›Ä‡ ustawienia grafiki jako tÅ‚a
+- cieniowanie tÅ‚a
+- prawdziwÄ… przezroczystoÅ›Ä‡
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
