@@ -5,16 +5,14 @@ Name:		urxvt
 Version:	8.4
 Release:	1
 Group:		X11/Applications
-License:	GPL
+License:	GPL v2+
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	d15ba0ea7cb54ce7a2a41650e2a5e6ab
 Source1:	%{name}.desktop
 URL:		http://software.schmorp.de/
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
-BuildRequires:	libtool
 BuildRequires:	perl-devel
 BuildRequires:	sed >= 4.0
 BuildRequires:	xorg-lib-libXext-devel
@@ -66,7 +64,6 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_mandir}/man{1,7}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
@@ -83,8 +80,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc Changes doc/README.*
-%attr(755,root,root) %{_bindir}/*
+%doc Changes doc/README.xvt
+%attr(755,root,root) %{_bindir}/urxvt*
 %{_libdir}/%{name}
 %{_desktopdir}/urxvt.desktop
-%{_mandir}/man*/*
+%{_mandir}/man1/urxvt*.1*
+%{_mandir}/man3/urxvtperl.3*
+%{_mandir}/man7/urxvt.7*
