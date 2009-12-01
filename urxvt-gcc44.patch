@@ -1,0 +1,22 @@
+--- rxvt-unicode-9.06/src/command.C.org	2009-12-01 19:35:33.782626547 +0100
++++ rxvt-unicode-9.06/src/command.C	2009-12-01 19:37:32.847911463 +0100
+@@ -3336,7 +3336,7 @@
+           }
+         else
+           {
+-            char *eq = strchr (str, '='); // constness lost, but verified to be ok
++            char *eq = (char *)strchr (str, '='); // constness lost, but verified to be ok
+ 
+             if (eq)
+               {
+--- rxvt-unicode-9.06/src/misc.C.org	2009-12-01 19:42:22.981876435 +0100
++++ rxvt-unicode-9.06/src/misc.C	2009-12-01 19:42:55.740002187 +0100
+@@ -170,7 +170,7 @@
+ char *
+ rxvt_basename (const char *str) NOTHROW
+ {
+-  char *base = strrchr (str, '/');
++  char *base = (char *)strrchr (str, '/');
+ 
+   return (char *) (base ? base + 1 : str);
+ }
