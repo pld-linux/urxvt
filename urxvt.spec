@@ -1,3 +1,7 @@
+#
+# Conditional build:
+#
+%bcond_with     256colors # unsupported 256 colors patch (see FAQ)
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
@@ -9,6 +13,7 @@ Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	4cb9330e99fc0b0b05cebf3581557dd8
 Source1:	%{name}.desktop
+Patch0:		%{name}-gcc44.patch
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
@@ -40,24 +45,23 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
+%patch0 -p1
+%if %{with 256colors}
+patch -p1 < doc/urxvt-8.2-256color.patch
+%endif
 
 %build
 %{__autoheader}
 %{__autoconf}
 %configure \
-	--enable-shared \
-	--disable-static \
+%if %{with 256colors}
+	--enable-xterm-colors=256 \
+%endif
 	--enable-everything \
-	--enable-xgetdefault \
 	--enable-mousewheel \
-	--disable-menubar \
 	--enable-next-scroll \
-	--enable-ttygid \
 	--with-term=rxvt \
-	--enable-half-shadow \
-	--enable-smart-resize \
-	--enable-256-color \
-	--enable-24bit
+	--enable-smart-resize
 
 %{__make} \
 	CXXFLAGS="%{rpmcxxflags}" \
