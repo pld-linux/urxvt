@@ -18,6 +18,8 @@ BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel
+BuildRequires:	pkgconfig
+BuildRequires:	rpm-perlprov
 BuildRequires:	sed >= 4.0
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel
