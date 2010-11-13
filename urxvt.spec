@@ -1,21 +1,27 @@
+# TODO:
+# - Build fails on all platforms, same error for previous TH/TI built version 9.07
+#		/usr/bin/ld: rxvtfont.o: undefined reference to symbol 'FcPatternDel'
+#		/usr/bin/ld: note: 'FcPatternDel' is defined in DSO /usr/lib64/libfontconfig.so so try adding it to the linker command line
+#		/usr/lib64/libfontconfig.so: could not read symbols: Invalid operation
 #
 # Conditional build:
 #
-%bcond_with     256colors # unsupported 256 colors patch (see FAQ)
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	9.07
-Release:	2
+Version:	9.09
+Release:	0.1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	49bb52c99e002bf85eb41d8385d903b5
+# Source0-md5:	3505887adae710382edee90ed5538a01
 Source1:	%{name}.desktop
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
+BuildRequires:	fontconfig-libs
+BuildRequires:	libev >= 4.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
@@ -46,17 +52,11 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-%if %{with 256colors}
-patch -p1 < doc/urxvt-8.2-256color.patch
-%endif
 
 %build
 %{__autoheader}
 %{__autoconf}
 %configure \
-%if %{with 256colors}
-	--enable-xterm-colors=256 \
-%endif
 	--enable-everything \
 	--enable-mousewheel \
 	--enable-next-scroll \
@@ -66,7 +66,8 @@ patch -p1 < doc/urxvt-8.2-256color.patch
 
 %{__make} \
 	CXXFLAGS="%{rpmcxxflags}" \
-	CFLAGS="%{rpmcxxflags}"
+	CFLAGS="%{rpmcxxflags}" \
+	LDFLAGS="%{rpmldflags} -lfontconfig"
 
 %install
 rm -rf $RPM_BUILD_ROOT
