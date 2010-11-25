@@ -13,7 +13,6 @@ Patch0:		%{name}-fontconfig.patch
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
-BuildRequires:	libev >= 4.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
