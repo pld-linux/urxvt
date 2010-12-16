@@ -1,15 +1,15 @@
+%bcond_with	256colors	# build with 256 color support
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	9.09
+Version:	9.10
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	3505887adae710382edee90ed5538a01
+# Source0-md5:	a23aa40b31e843878b6f9c44768de430
 Source1:	%{name}.desktop
-Patch0:		%{name}-fontconfig.patch
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	fontconfig-devel
@@ -43,13 +43,15 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-%patch0 -p1
 
 %build
 %{__aclocal} -I.
 %{__autoheader}
 %{__autoconf}
 %configure \
+%if %{with 256colors}
+	--enable-256-color \
+%endif
 	--enable-everything \
 	--enable-mousewheel \
 	--enable-next-scroll \
@@ -57,10 +59,7 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 	--disable-afterimage \
 	--enable-smart-resize
 
-%{__make} \
-	CXXFLAGS="%{rpmcxxflags}" \
-	CFLAGS="%{rpmcxxflags}" \
-	LDFLAGS="%{rpmldflags} -lfontconfig"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
