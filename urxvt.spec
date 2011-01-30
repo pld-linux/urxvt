@@ -12,6 +12,7 @@ Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 Source1:	%{name}.desktop
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake
 BuildRequires:	fontconfig-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel
