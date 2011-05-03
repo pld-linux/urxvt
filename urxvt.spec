@@ -1,19 +1,24 @@
+# TODO: utempter support
+#
+# Conditional build:
 %bcond_with	256colors	# build with 256 color support
+#
 %include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	9.10
+Version:	9.11
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	a23aa40b31e843878b6f9c44768de430
+# Source0-md5:	1bed5bfeed026e0bfafa0e9e4f62aa37
 Source1:	%{name}.desktop
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	fontconfig-devel
+BuildRequires:	gdk-pixbuf2-devel >= 2.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel
 BuildRequires:	pkgconfig
