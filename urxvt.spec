@@ -7,15 +7,15 @@
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
-Version:	9.15
+Version:	9.17
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
-# Source0-md5:	15595aa326167ac5eb68c28d95432faf
+# Source0-md5:	1270432bdc7ce17dbb07d41a607081e0
 Source1:	%{name}.desktop
-URL:		http://software.schmorp.de/
 Patch0:		%{name}-tic.patch
+URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
 BuildRequires:	fontconfig-devel
@@ -25,9 +25,12 @@ BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-perlprov
 BuildRequires:	sed >= 4.0
+BuildRequires:	startup-notification-devel
+BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel
 BuildRequires:	xorg-lib-libXpm-devel
+BuildRequires:	xorg-lib-libXrender-devel
 BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
