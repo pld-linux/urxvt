@@ -8,13 +8,14 @@ Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
 Version:	9.18
-Release:	2
+Release:	3
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	963ccc748fe5bca925e7b92c0404d68b
 Source1:	%{name}.desktop
 Patch0:		%{name}-tic.patch
+Patch1:		%{name}-tabbed_syntax.patch
 URL:		http://software.schmorp.de/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
@@ -54,6 +55,7 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 %prep
 %setup -q -n rxvt-unicode-%{version}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__aclocal} -I.
