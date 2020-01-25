@@ -3,7 +3,6 @@
 # Conditional build:
 %bcond_without	256colors	# build without 256 color support
 #
-%include	/usr/lib/rpm/macros.perl
 Summary:	Rxvt terminal with unicode support and some improvements
 Summary(pl.UTF-8):	Terminal Rxvt z obsługą unicode i kilkoma usprawnieniami
 Name:		urxvt
