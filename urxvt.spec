@@ -23,6 +23,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	pkgconfig
 BuildRequires:	rpm-perlprov
+BuildRequires:	rpmbuild(macros) >= 1.745
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-lib-libX11-devel
