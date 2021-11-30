@@ -14,7 +14,7 @@ Source0:	http://dist.schmorp.de/rxvt-unicode/rxvt-unicode-%{version}.tar.bz2
 # Source0-md5:	793ae8d59cf911fc6a93254234933d25
 Source1:	%{name}.desktop
 URL:		http://software.schmorp.de/
-BuildRequires:	autoconf >= 2.50
+BuildRequires:	autoconf >= 2.71
 BuildRequires:	automake
 BuildRequires:	fontconfig-devel
 BuildRequires:	gdk-pixbuf2-devel >= 2.0
@@ -27,11 +27,9 @@ BuildRequires:	rpmbuild(macros) >= 1.745
 BuildRequires:	sed >= 4.0
 BuildRequires:	startup-notification-devel
 BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXft-devel
-BuildRequires:	xorg-lib-libXpm-devel
+BuildRequires:	xorg-lib-libXmu-devel
 BuildRequires:	xorg-lib-libXrender-devel
-BuildRequires:	zlib-devel
 Requires:	terminfo
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -65,8 +63,8 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 	--enable-everything \
 	--enable-mousewheel \
 	--enable-next-scroll \
-	--with-term=rxvt \
-	--enable-smart-resize
+	--enable-smart-resize \
+	--with-term=rxvt
 
 %{__make}
 
