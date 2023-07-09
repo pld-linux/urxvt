@@ -1,0 +1,19 @@
+From 66e8bc0e3099962a076b142c2d341b667764aa76 Mon Sep 17 00:00:00 2001
+From: Mateusz Kocielski <shm@digitalsun.pl>
+Date: Sat, 8 Jul 2023 16:41:02 +0200
+Subject: [PATCH] Add patch to fix broken UTF-8 with perl-5.38
+
+Analysis done by sxzzsf and sent to rxvt-unicode mailing list:
+http://lists.schmorp.de/pipermail/rxvt-unicode/2023q3/002665.html
+
+--- rxvt-unicode-9.31.old/src/rxvtperl.xs	2022-12-30 20:18:20.000000000 +0100
++++ rxvt-unicode-9.31/src/rxvtperl.xs	2023-07-08 16:26:46.086347986 +0200
+@@ -399,7 +399,7 @@
+ {
+   if (!perl)
+     {
+-      rxvt_push_locale (""); // perl init destroys current locale
++      rxvt_push_locale ("C"); // perl init destroys current locale
+ 
+       {
+         perl_environ = rxvt_environ;
