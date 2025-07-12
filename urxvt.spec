@@ -53,7 +53,7 @@ URxvt jest modyfikacją Rxvt uwzględniającą:
 
 %prep
 %setup -q -n rxvt-unicode-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__aclocal} -I.
